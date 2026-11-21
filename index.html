@@ -12,14 +12,12 @@
   --pink:#e9a9c0;
   --dark-pink:#bd7795;
   --light:#fff0f5;
-  --white:#ffffff;
+  --white:#fff;
   --text:#604452;
   --gold:#d6b47a;
   --shadow:0 5px 25px #bd779522;
 }
-
-* { box-sizing:border-box; }
-
+* {box-sizing:border-box}
 body {
   margin:0;
   font-family:system-ui,-apple-system,sans-serif;
@@ -27,12 +25,7 @@ body {
   color:var(--text);
   min-height:100vh;
 }
-
-header {
-  text-align:center;
-  padding:25px 15px 15px;
-}
-
+header {text-align:center;padding:25px 15px 15px}
 .logo {
   font-family:Georgia,serif;
   font-size:38px;
@@ -40,15 +33,8 @@ header {
   letter-spacing:4px;
   margin:0;
 }
-
-.subtitle { font-size:12px;color:#b58b9c; }
-
-main {
-  max-width:750px;
-  margin:auto;
-  padding:15px 15px 110px;
-}
-
+.subtitle {font-size:12px;color:#b58b9c}
+main {max-width:750px;margin:auto;padding:15px 15px 110px}
 .card {
   background:white;
   border-radius:22px;
@@ -57,9 +43,7 @@ main {
   box-shadow:var(--shadow);
   border:1px solid #f8e0e9;
 }
-
-h2,h3 { color:#bd7795; }
-
+h2,h3 {color:#bd7795}
 button {
   border:0;
   background:#e8afc5;
@@ -71,14 +55,9 @@ button {
   font-weight:600;
   transition:.2s;
 }
-
-button:active { transform:scale(.96); }
-
-button.secondary {
-  background:#f9e7ee;
-  color:#a56c83;
-}
-
+button:active {transform:scale(.96)}
+button:disabled {opacity:.55;cursor:wait}
+button.secondary {background:#f9e7ee;color:#a56c83}
 input,textarea,select {
   width:100%;
   border:1px solid #efd4df;
@@ -90,9 +69,7 @@ input,textarea,select {
   font:inherit;
   outline:none;
 }
-
-textarea { min-height:100px;resize:vertical; }
-
+textarea {min-height:100px;resize:vertical}
 nav {
   position:fixed;
   bottom:0;
@@ -107,32 +84,21 @@ nav {
   box-shadow:0 -5px 25px #bd779522;
   overflow-x:auto;
 }
-
 nav button {
   background:transparent;
   color:#a77b8e;
   padding:8px 9px;
   min-width:65px;
   font-size:11px;
+  flex-shrink:0;
 }
-
-nav button.active {
-  background:#fce8f0;
-  color:#bd7795;
-}
-
-.page { display:none; }
-
-.page.active {
-  display:block;
-  animation:fade .3s ease;
-}
-
+nav button.active {background:#fce8f0;color:#bd7795}
+.page {display:none}
+.page.active {display:block;animation:fade .3s ease}
 @keyframes fade {
   from {opacity:0;transform:translateY(8px)}
   to {opacity:1;transform:translateY(0)}
 }
-
 .sakura {
   position:fixed;
   top:-20px;
@@ -141,52 +107,34 @@ nav button.active {
   color:#e9afc6;
   animation:fall linear forwards;
 }
-
 @keyframes fall {
-  to {
-    transform:translateY(110vh) rotate(450deg);
-    opacity:0;
-  }
+  to {transform:translateY(110vh) rotate(450deg);opacity:0}
 }
-
-.hero { text-align:center;padding:25px 10px; }
-.hero h2 { font-family:Georgia,serif;font-size:29px; }
-.counter { font-size:34px;color:#bd7795;font-weight:bold; }
-
+.hero {text-align:center;padding:25px 10px}
+.hero h2 {font-family:Georgia,serif;font-size:29px}
+.counter {font-size:34px;color:#bd7795;font-weight:bold}
 .photo-grid {
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
 }
-
 .photo-grid img {
   width:100%;
   height:160px;
   object-fit:cover;
   border-radius:14px;
 }
-
 .item {
   padding:14px;
   border-radius:14px;
   background:#fff5f9;
   margin:10px 0;
   border:1px solid #f4dce6;
-}
-
-.item p {
-  white-space:pre-wrap;
   overflow-wrap:anywhere;
 }
-
-.small { font-size:12px;color:#aa8292; }
-
-footer {
-  text-align:center;
-  color:#c69cac;
-  font-size:11px;
-  padding:20px;
-}
+.item p {white-space:pre-wrap;overflow-wrap:anywhere}
+.small {font-size:12px;color:#aa8292}
+footer {text-align:center;color:#c69cac;font-size:11px;padding:20px}
 </style>
 </head>
 
@@ -204,7 +152,7 @@ footer {
   <div class="card hero">
     <div style="font-size:40px">🌸 💗 🌸</div>
     <h2>Deux cœurs, mille souvenirs.</h2>
-    <p id="quote">Chaque instant partagé devient un souvenir précieux.</p>
+    <p id="quote"></p>
     <div class="counter" id="days">0 jours</div>
     <p class="small">Depuis notre date importante</p>
     <input type="date" id="startDate">
@@ -235,7 +183,8 @@ footer {
     <input id="photoInput" type="file" accept="image/*" multiple>
     <input id="photoTitle" placeholder="Titre du souvenir">
     <textarea id="photoDescription" placeholder="Raconte ce moment..."></textarea>
-    <button onclick="addPhotos()">Ajouter les photos</button>
+    <button id="photoButton" onclick="addPhotos()">Ajouter les photos</button>
+    <p id="photoStatus" class="small" aria-live="polite"></p>
   </div>
 
   <div class="card">
@@ -252,7 +201,6 @@ footer {
     <textarea id="letterText" placeholder="Écris ce que ton cœur veut dire..."></textarea>
     <button onclick="addLetter()">Enregistrer ma lettre</button>
   </div>
-
   <div class="card">
     <h3>Notre boîte aux lettres</h3>
     <div id="letterList"></div>
@@ -275,6 +223,9 @@ footer {
 
     <button onclick="randomActivity()">🎲 Activité aléatoire</button>
     <div id="activityList"></div>
+
+    <h3>📖 Historique des activités</h3>
+    <div id="historyList"></div>
   </div>
 </section>
 
@@ -283,14 +234,8 @@ footer {
   <div class="card">
     <h2>💗 Envoyer un message à Ambre</h2>
     <p>Un petit message à lui transmettre ? 🌸</p>
-
-    <textarea id="ambreMessage" maxlength="1900"
-      placeholder="Écris ton message à Ambre..."></textarea>
-
-    <button id="ambreButton" onclick="sendAmbreMessage()">
-      💗 Envoyer à Ambre
-    </button>
-
+    <textarea id="ambreMessage" maxlength="1900" placeholder="Écris ton message à Ambre..."></textarea>
+    <button id="ambreButton" onclick="sendAmbreMessage()">💗 Envoyer à Ambre</button>
     <p id="ambreStatus" class="small" aria-live="polite"></p>
   </div>
 </section>
@@ -300,14 +245,8 @@ footer {
   <div class="card">
     <h2>💬 Envoyer un message à Wahib</h2>
     <p>Écris ton message ici ✨</p>
-
-    <textarea id="wahibMessage" maxlength="1900"
-      placeholder="Écris ton message à Wahib..."></textarea>
-
-    <button id="wahibButton" onclick="sendWahibMessage()">
-      💌 Envoyer à Wahib
-    </button>
-
+    <textarea id="wahibMessage" maxlength="1900" placeholder="Écris ton message à Wahib..."></textarea>
+    <button id="wahibButton" onclick="sendWahibMessage()">💌 Envoyer à Wahib</button>
     <p id="wahibStatus" class="small" aria-live="polite"></p>
   </div>
 </section>
@@ -337,7 +276,6 @@ footer {
 </section>
 
 <footer>AMBRE 🌸 — Notre petit univers.</footer>
-
 </main>
 
 <nav>
@@ -352,45 +290,105 @@ footer {
 
 <script>
 
+// ============================
+// CONFIGURATION DISCORD
+// ============================
+
+// Remplace les valeurs par tes nouveaux webhooks Discord.
+// Les anciens liens publiés doivent être régénérés.
+
+const WEBHOOK_PHOTOS = "COLLE_ICI_TON_WEBHOOK_PHOTOS";
+const WEBHOOK_AMBRE = "COLLE_ICI_TON_WEBHOOK_AMBRE";
+const WEBHOOK_WAHIB = "COLLE_ICI_TON_WEBHOOK_WAHIB";
+
+// ============================
+// DEBUG
+// ============================
+
+window.addEventListener("error", event => {
+  console.error("Erreur JavaScript :", event.message, event.filename, event.lineno);
+});
+
+window.addEventListener("unhandledrejection", event => {
+  console.error("Erreur asynchrone :", event.reason);
+});
+
+// ============================
 // STORAGE
-const getData = (key,fallback=[]) => {
+// ============================
+
+const getData = (key, fallback = []) => {
   try {
     return JSON.parse(localStorage.getItem(key)) ?? fallback;
-  } catch {
+  } catch (error) {
+    console.error("Erreur lecture stockage :", error);
     return fallback;
   }
 };
 
-const saveData = (key,value) => {
-  localStorage.setItem(key,JSON.stringify(value));
+const saveData = (key, value) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (error) {
+    console.error("Erreur sauvegarde :", error);
+    alert("Stockage plein. Certaines données n'ont pas pu être enregistrées.");
+    return false;
+  }
 };
 
+// ============================
 // NAVIGATION
-function showPage(id,button) {
-  document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+// ============================
 
-  document.getElementById(id).classList.add("active");
+function showPage(id, button) {
+  const page = document.getElementById(id);
 
-  document.querySelectorAll("nav button")
-    .forEach(b=>b.classList.remove("active"));
+  if (!page) {
+    console.error("Onglet introuvable :", id);
+    return;
+  }
 
-  if(button) button.classList.add("active");
+  document.querySelectorAll(".page").forEach(p =>
+    p.classList.remove("active")
+  );
+
+  page.classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(b =>
+    b.classList.remove("active")
+  );
+
+  if (button) {
+    button.classList.add("active");
+  } else {
+    document.querySelectorAll("nav button").forEach(b => {
+      if (b.getAttribute("onclick")?.includes("'" + id + "'")) {
+        b.classList.add("active");
+      }
+    });
+  }
 
   renderAll();
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// CLOCK
+// ============================
+// HORLOGE
+// ============================
+
 function updateClock() {
   document.getElementById("clock").textContent =
     new Date().toLocaleString("fr-FR");
 }
 
-setInterval(updateClock,1000);
+setInterval(updateClock, 1000);
 updateClock();
 
-// HOME
+// ============================
+// ACCUEIL
+// ============================
+
 const quotes = [
   "Chaque instant partagé devient un souvenir précieux. 🌸",
   "Les plus belles histoires se construisent à deux. 💗",
@@ -399,7 +397,7 @@ const quotes = [
 ];
 
 document.getElementById("quote").textContent =
-  quotes[new Date().getDate()%quotes.length];
+  quotes[new Date().getDate() % quotes.length];
 
 const messages = [
   "N'oublie jamais que tu comptes énormément. 💗",
@@ -409,171 +407,255 @@ const messages = [
 ];
 
 document.getElementById("dailyMessage").textContent =
-  messages[Math.floor(Date.now()/86400000)%messages.length];
+  messages[Math.floor(Date.now() / 86400000) % messages.length];
 
 function saveStartDate() {
-  const date=document.getElementById("startDate").value;
-  if(!date) return alert("Choisis une date.");
-  saveData("amb_date",date);
+  const date = document.getElementById("startDate").value;
+
+  if (!date) return alert("Choisis une date.");
+
+  saveData("amb_date", date);
   updateDays();
 }
 
 function updateDays() {
-  const date=localStorage.getItem("amb_date");
-  if(!date) return;
+  const date = localStorage.getItem("amb_date");
+  if (!date) return;
 
-  const days=Math.floor(
-    (new Date()-new Date(date))/(86400000)
-  );
+  const start = new Date(date + "T00:00:00");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const days = Math.floor((today - start) / 86400000);
 
   document.getElementById("days").textContent =
-    Math.max(0,days)+" jours 💗";
+    Math.max(0, days) + " jours 💗";
 
-  document.getElementById("startDate").value=date;
+  document.getElementById("startDate").value = date;
 }
 
 updateDays();
 
-// PHOTOS
-function addPhotos() {
-  const files=document.getElementById("photoInput").files;
-  const title=document.getElementById("photoTitle").value;
-  const description=document.getElementById("photoDescription").value;
+// ============================
+// PHOTOS ET DISCORD
+// ============================
 
-  if(!files.length) return alert("Choisis une photo.");
+async function addPhotos() {
+  const input = document.getElementById("photoInput");
+  const files = Array.from(input.files);
+  const title = document.getElementById("photoTitle").value.trim();
+  const description = document.getElementById("photoDescription").value.trim();
 
-  const memories=getData("amb_memories");
-  const selected=Array.from(files);
-  let processed=0;
+  const button = document.getElementById("photoButton");
+  const status = document.getElementById("photoStatus");
 
-  selected.forEach(file=>{
-    if(!file.type.startsWith("image/")) {
-      processed++;
-      return;
+  if (!files.length) {
+    status.textContent = "Choisis au moins une photo.";
+    return;
+  }
+
+  if (!WEBHOOK_PHOTOS.startsWith("https://discord.com/api/webhooks/")) {
+    status.textContent = "Configure le webhook des photos dans le script.";
+    return;
+  }
+
+  button.disabled = true;
+
+  let success = 0;
+  let errors = 0;
+
+  const memories = getData("amb_memories");
+
+  try {
+    for (const file of files) {
+      if (!file.type.startsWith("image/")) {
+        errors++;
+        continue;
+      }
+
+      if (file.size > 8 * 1024 * 1024) {
+        errors++;
+        console.warn("Photo trop volumineuse :", file.name);
+        continue;
+      }
+
+      status.textContent =
+        "Envoi de " + (success + errors + 1) + "/" + files.length + "...";
+
+      const formData = new FormData();
+
+      formData.append("files[0]", file, file.name);
+
+      formData.append("payload_json", JSON.stringify({
+        username: "🌸 AMBRE — Souvenirs",
+        content:
+          "📸 **Nouveau souvenir !**\n" +
+          "**Titre :** " + (title || "Souvenir") +
+          "\n**Description :** " + (description || "Aucune description"),
+        allowed_mentions: { parse: [] }
+      }));
+
+      try {
+        const response = await fetch(WEBHOOK_PHOTOS + "?wait=true", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error("Discord HTTP " + response.status + ": " + errorText);
+        }
+
+        // Sauvegarde locale de la photo pour la galerie
+        const image = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(file);
+        });
+
+        memories.push({
+          id: crypto.randomUUID(),
+          title: title,
+          description: description,
+          image: image,
+          date: new Date().toLocaleDateString("fr-FR")
+        });
+
+        success++;
+
+      } catch (error) {
+        errors++;
+        console.error("Erreur envoi photo :", file.name, error);
+      }
     }
 
-    const reader=new FileReader();
+    saveData("amb_memories", memories);
+    renderMemories();
 
-    reader.onload=()=>{
-      memories.push({
-        id:crypto.randomUUID(),
-        title,
-        description,
-        image:reader.result,
-        date:new Date().toLocaleDateString("fr-FR")
-      });
+    if (success > 0) {
+      input.value = "";
+      document.getElementById("photoTitle").value = "";
+      document.getElementById("photoDescription").value = "";
+    }
 
-      processed++;
+    status.textContent =
+      "💗 " + success + " photo(s) envoyée(s)." +
+      (errors ? " " + errors + " échec(s). Consulte la console." : "");
 
-      if(processed===selected.length) {
-        saveData("amb_memories",memories);
-        renderMemories();
-        alert("Souvenirs enregistrés sur cet appareil.");
-      }
-    };
-
-    reader.onerror=()=>{
-      processed++;
-      if(processed===selected.length) {
-        saveData("amb_memories",memories);
-        renderMemories();
-      }
-    };
-
-    reader.readAsDataURL(file);
-  });
+  } finally {
+    button.disabled = false;
+    button.textContent = "Ajouter les photos";
+  }
 }
 
 function renderMemories() {
-  const memories=getData("amb_memories");
-  const gallery=document.getElementById("gallery");
+  const memories = getData("amb_memories");
+  const gallery = document.getElementById("gallery");
+
   gallery.replaceChildren();
 
-  memories.forEach(memory=>{
-    const article=document.createElement("div");
-    const img=document.createElement("img");
-    const title=document.createElement("strong");
-    const desc=document.createElement("p");
-    const date=document.createElement("small");
-    const del=document.createElement("button");
+  memories.forEach(memory => {
+    const article = document.createElement("div");
+    const img = document.createElement("img");
+    const title = document.createElement("strong");
+    const desc = document.createElement("p");
+    const date = document.createElement("small");
+    const del = document.createElement("button");
 
-    article.className="item";
-    img.src=memory.image;
-    img.alt=memory.title||"Souvenir";
-    title.textContent=memory.title||"Souvenir";
-    desc.textContent=memory.description||"";
-    date.textContent=memory.date;
-    del.textContent="Supprimer";
-    del.className="secondary";
+    article.className = "item";
 
-    del.onclick=()=>{
-      saveData("amb_memories",
-        getData("amb_memories").filter(x=>x.id!==memory.id));
+    img.src = memory.image;
+    img.alt = memory.title || "Souvenir";
+
+    title.textContent = memory.title || "Souvenir";
+    desc.textContent = memory.description || "";
+    date.textContent = memory.date || "";
+
+    del.textContent = "Supprimer";
+    del.className = "secondary";
+
+    del.onclick = () => {
+      saveData(
+        "amb_memories",
+        getData("amb_memories").filter(x => x.id !== memory.id)
+      );
       renderMemories();
     };
 
-    article.append(img,title,desc,date,del);
+    article.append(img, title, desc, date, del);
     gallery.append(article);
   });
 }
 
-// LETTERS
+// ============================
+// LETTRES
+// ============================
+
 function addLetter() {
-  const title=document.getElementById("letterTitle").value.trim();
-  const text=document.getElementById("letterText").value.trim();
+  const title = document.getElementById("letterTitle").value.trim();
+  const text = document.getElementById("letterText").value.trim();
 
-  if(!title||!text) return alert("Complète ta lettre.");
+  if (!title || !text) {
+    return alert("Complète ta lettre.");
+  }
 
-  const letters=getData("amb_letters");
+  const letters = getData("amb_letters");
 
   letters.unshift({
-    id:crypto.randomUUID(),
+    id: crypto.randomUUID(),
     title,
     text,
-    date:new Date().toLocaleString("fr-FR")
+    date: new Date().toLocaleString("fr-FR")
   });
 
-  saveData("amb_letters",letters);
+  if (!saveData("amb_letters", letters)) return;
 
-  document.getElementById("letterTitle").value="";
-  document.getElementById("letterText").value="";
+  document.getElementById("letterTitle").value = "";
+  document.getElementById("letterText").value = "";
+
   renderLetters();
 }
 
 function renderLetters() {
-  const list=document.getElementById("letterList");
+  const list = document.getElementById("letterList");
   list.replaceChildren();
 
-  getData("amb_letters").forEach(letter=>{
-    const article=document.createElement("div");
-    article.className="item";
+  getData("amb_letters").forEach(letter => {
+    const article = document.createElement("div");
+    article.className = "item";
 
-    const title=document.createElement("h3");
-    title.textContent="💌 "+letter.title;
+    const title = document.createElement("h3");
+    title.textContent = "💌 " + letter.title;
 
-    const text=document.createElement("p");
-    text.textContent=letter.text;
+    const text = document.createElement("p");
+    text.textContent = letter.text;
 
-    const date=document.createElement("small");
-    date.textContent=letter.date;
+    const date = document.createElement("small");
+    date.textContent = letter.date;
 
-    const del=document.createElement("button");
-    del.textContent="Supprimer";
-    del.className="secondary";
+    const del = document.createElement("button");
+    del.textContent = "Supprimer";
+    del.className = "secondary";
 
-    del.onclick=()=>{
-      saveData("amb_letters",
-        getData("amb_letters").filter(x=>x.id!==letter.id));
+    del.onclick = () => {
+      saveData(
+        "amb_letters",
+        getData("amb_letters").filter(x => x.id !== letter.id)
+      );
       renderLetters();
     };
 
-    article.append(title,text,date,del);
+    article.append(title, text, date, del);
     list.append(article);
   });
 }
 
-// ACTIVITIES
-const activities=[
+// ============================
+// ACTIVITÉS
+// ============================
+
+const activities = [
 {n:"Portrait mystère",c:"Jeux",d:"Dessinez-vous mutuellement sans regarder votre dessin pendant une minute.",t:"10 min"},
 {n:"Trois souvenirs",c:"Questions",d:"Racontez trois souvenirs qui vous font sourire.",t:"15 min"},
 {n:"Notre voyage rêvé",c:"Romantique",d:"Imaginez ensemble votre prochaine destination.",t:"20 min"},
@@ -597,95 +679,132 @@ const activities=[
 ];
 
 function renderActivities() {
-  const list=document.getElementById("activityList");
-  const category=document.getElementById("categoryFilter").value;
+  const list = document.getElementById("activityList");
+  const category = document.getElementById("categoryFilter").value;
+
   list.replaceChildren();
 
   activities
-    .filter(a=>category==="Toutes"||a.c===category)
-    .forEach(a=>{
-      const article=document.createElement("div");
-      article.className="item";
+    .filter(a => category === "Toutes" || a.c === category)
+    .forEach(a => {
+      const article = document.createElement("div");
+      article.className = "item";
 
-      const title=document.createElement("h3");
-      title.textContent=a.n;
+      const title = document.createElement("h3");
+      title.textContent = a.n;
 
-      const description=document.createElement("p");
-      description.textContent=a.d;
+      const description = document.createElement("p");
+      description.textContent = a.d;
 
-      const info=document.createElement("small");
-      info.textContent=a.c+" · "+a.t;
+      const info = document.createElement("small");
+      info.textContent = a.c + " · " + a.t;
 
-      const done=document.createElement("button");
-      done.textContent="✓ Terminée";
-      done.onclick=()=>{
-        const history=getData("amb_history");
-        history.push({name:a.n,date:new Date().toLocaleDateString("fr-FR")});
-        saveData("amb_history",history);
-        done.textContent="Terminée 💗";
-        done.disabled=true;
+      const done = document.createElement("button");
+      const history = getData("amb_history");
+
+      const alreadyDone = history.some(
+        h => h.name === a.n && h.date === new Date().toLocaleDateString("fr-FR")
+      );
+
+      done.textContent = alreadyDone ? "Terminée 💗" : "✓ Terminée";
+      done.disabled = alreadyDone;
+
+      done.onclick = () => {
+        const currentHistory = getData("amb_history");
+
+        currentHistory.push({
+          name: a.n,
+          date: new Date().toLocaleDateString("fr-FR")
+        });
+
+        saveData("amb_history", currentHistory);
+        done.textContent = "Terminée 💗";
+        done.disabled = true;
+        renderHistory();
       };
 
-      article.append(title,description,info,document.createElement("br"),done);
+      article.append(
+        title,
+        description,
+        info,
+        document.createElement("br"),
+        done
+      );
+
       list.append(article);
     });
 }
 
 function randomActivity() {
-  const a=activities[Math.floor(Math.random()*activities.length)];
-  alert("🌸 "+a.n+"\n\n"+a.d+"\n\nDurée : "+a.t);
+  const a = activities[Math.floor(Math.random() * activities.length)];
+
+  alert("🌸 " + a.n + "\n\n" + a.d + "\n\nDurée : " + a.t);
 }
 
-// DISCORD WEBHOOKS
-// Remplace ces deux valeurs par tes URL de webhook.
-const WEBHOOK_AMBRE = "https://discord.com/api/webhooks/1573681245127180420/9cLIdjqYiGDgf17J0L4swj7QIHZOrUyuno505CfocozVIKkrZT7jDUWEXSRk8DXx_w7X";
-const WEBHOOK_WAHIB = "https://discord.com/api/webhooks/1573684338761924700/bot2JxcrpEb43fb1rzcGrWfqJAiawRA_k_ZaSnmKVl0nGUW2U-6lItNfNDEBI1tgqJE8";
+function renderHistory() {
+  const list = document.getElementById("historyList");
+  list.replaceChildren();
 
-async function sendDiscordMessage(webhook,inputId,statusId,buttonId,username) {
-  const input=document.getElementById(inputId);
-  const status=document.getElementById(statusId);
-  const button=document.getElementById(buttonId);
-  const message=input.value.trim();
+  getData("amb_history").slice().reverse().forEach(entry => {
+    const item = document.createElement("div");
+    item.className = "item";
+    item.textContent = "✓ " + entry.name + " — " + entry.date;
+    list.append(item);
+  });
+}
 
-  if(!message) {
-    status.textContent="Écris un message avant de l'envoyer.";
+// ============================
+// MESSAGES DISCORD
+// ============================
+
+async function sendDiscordMessage(webhook, inputId, statusId, buttonId, username) {
+  const input = document.getElementById(inputId);
+  const status = document.getElementById(statusId);
+  const button = document.getElementById(buttonId);
+
+  const message = input.value.trim();
+
+  if (!message) {
+    status.textContent = "Écris un message avant de l'envoyer.";
     return;
   }
 
-  if(message.length>1900) {
-    status.textContent="Ton message est trop long.";
+  if (message.length > 1900) {
+    status.textContent = "Ton message est trop long.";
     return;
   }
 
-  if(!webhook.startsWith("https://discord.com/api/webhooks/")) {
-    status.textContent="Configure d'abord le webhook Discord.";
+  if (!webhook.startsWith("https://discord.com/api/webhooks/")) {
+    status.textContent = "Configure le webhook Discord.";
     return;
   }
 
-  button.disabled=true;
-  status.textContent="Envoi en cours...";
+  button.disabled = true;
+  status.textContent = "Envoi en cours...";
 
   try {
-    const response=await fetch(webhook,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        username:username,
-        content:message,
-        allowed_mentions:{parse:[]}
+    const response = await fetch(webhook, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        username,
+        content: message,
+        allowed_mentions: {parse: []}
       })
     });
 
-    if(!response.ok) {
-      throw new Error("Discord HTTP "+response.status);
+    if (!response.ok) {
+      throw new Error("Discord HTTP " + response.status);
     }
 
-    input.value="";
-    status.textContent="💗 Message envoyé avec succès !";
-  } catch(error) {
-    status.textContent="Impossible d'envoyer le message. Vérifie ta connexion et le webhook.";
+    input.value = "";
+    status.textContent = "💗 Message envoyé avec succès !";
+
+  } catch (error) {
+    console.error("Erreur Discord :", error);
+    status.textContent = "Impossible d'envoyer le message. Vérifie le webhook et la connexion.";
   } finally {
-    button.disabled=false;
+    button.disabled = false;
   }
 }
 
@@ -709,94 +828,170 @@ function sendWahibMessage() {
   );
 }
 
-// IMPORTANT DATES
+// ============================
+// DATES IMPORTANTES
+// ============================
 
+function addEvent() {
+  const name = document.getElementById("eventName").value.trim();
+  const date = document.getElementById("eventDate").value;
+
+  if (!name || !date) {
+    return alert("Complète les informations.");
+  }
+
+  const events = getData("amb_events");
+
+  events.push({
+    id: crypto.randomUUID(),
+    name,
+    date
+  });
+
+  if (!saveData("amb_events", events)) return;
+
+  document.getElementById("eventName").value = "";
+  document.getElementById("eventDate").value = "";
+
+  renderEvents();
+}
+
+function renderEvents() {
+  const list = document.getElementById("eventList");
+  list.replaceChildren();
+
+  getData("amb_events").forEach(event => {
+    const item = document.createElement("div");
+    item.className = "item";
+
+    const title = document.createElement("strong");
+    title.textContent = "🌷 " + event.name + " — " + event.date;
+
+    const del = document.createElement("button");
+    del.textContent = "Supprimer";
+    del.className = "secondary";
+
+    del.onclick = () => {
+      saveData(
+        "amb_events",
+        getData("amb_events").filter(x => x.id !== event.id)
+      );
+      renderEvents();
+    };
+
+    item.append(title, del);
     list.append(item);
   });
 }
 
-// DREAMS
+// ============================
+// RÊVES
+// ============================
+
 function addDream() {
-  const input=document.getElementById("dreamInput");
-  const text=input.value.trim();
+  const input = document.getElementById("dreamInput");
+  const text = input.value.trim();
 
-  if(!text) return;
+  if (!text) return;
 
-  const dreams=getData("amb_dreams");
-  dreams.push({id:crypto.randomUUID(),text,done:false});
+  const dreams = getData("amb_dreams");
 
-  saveData("amb_dreams",dreams);
-  input.value="";
+  dreams.push({
+    id: crypto.randomUUID(),
+    text,
+    done: false
+  });
+
+  if (!saveData("amb_dreams", dreams)) return;
+
+  input.value = "";
   renderDreams();
 }
 
 function renderDreams() {
-  const list=document.getElementById("dreamList");
+  const list = document.getElementById("dreamList");
   list.replaceChildren();
 
-  getData("amb_dreams").forEach(dream=>{
+  getData("amb_dreams").forEach(dream => {
+    const item = document.createElement("div");
+    item.className = "item";
 
-// PHOTOS : ENVOI VERS DISCORD
-async function addPhotos() {
-  const files = document.getElementById("photoInput").files;
-  const title = document.getElementById("photoTitle").value.trim();
-  const description = document.getElementById("photoDescription").value.trim();
+    const label = document.createElement("span");
+    label.textContent = (dream.done ? "✓ " : "🌸 ") + dream.text;
 
-  if (!files.length) {
-    alert("Choisis au moins une photo.");
-    return;
-  }
+    const done = document.createElement("button");
+    done.textContent = dream.done ? "À refaire" : "Accompli";
+    done.className = "secondary";
 
-  const button = document.querySelector("#memories button");
+    done.onclick = () => {
+      const dreams = getData("amb_dreams");
+      const found = dreams.find(x => x.id === dream.id);
 
-  button.disabled = true;
-  button.textContent = "Envoi des photos...";
-
-  try {
-    const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("description", description);
-
-    for (const file of files) {
-      if (!file.type.startsWith("image/")) continue;
-
-      if (file.size > 8 * 1024 * 1024) {
-        throw new Error("Une photo dépasse la limite de 8 Mo.");
+      if (found) {
+        found.done = !found.done;
       }
 
-      formData.append("photos", file);
-    }
+      saveData("amb_dreams", dreams);
+      renderDreams();
+    };
 
-    if (!formData.has("photos")) {
-      throw new Error("Aucune image valide.");
-    }
+    item.append(label, done);
+    list.append(item);
+  });
+}
 
-    const WEBHOOK_PHOTOS = "https://discord.com/api/webhooks/1573691847401013418/ZP8jO-kSmgfn1VKwtLFjxpldGRwUEEmaeBvDgUkg8IBBFDlit2cAvZsn6qZ2XYl9fx4g";
+// ============================
+// VIBRATION
+// ============================
 
-    const response = await fetch(WEBHOOK_PHOTOS + "?wait=true", {
-      method: "POST",
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error("Erreur pendant l'envoi.");
-    }
-
-    alert("🌸 Photos envoyées sur Discord avec succès !");
-
-    document.getElementById("photoInput").value = "";
-    document.getElementById("photoTitle").value = "";
-    document.getElementById("photoDescription").value = "";
-
-  } catch (error) {
-    alert("Impossible d'envoyer les photos : " + error.message);
-  } finally {
-    button.disabled = false;
-    button.textContent = "Ajouter les photos";
+function wakePhone() {
+  if ("vibrate" in navigator) {
+    navigator.vibrate([200, 100, 200]);
+    alert("Demande de vibration envoyée à cet appareil.");
+  } else {
+    alert("La vibration n'est pas prise en charge par ce navigateur.");
   }
 }
-    
+
+// ============================
+// ANIMATION SAKURA
+// ============================
+
+function createPetal() {
+  const petal = document.createElement("div");
+
+  petal.className = "sakura";
+  petal.textContent = "🌸";
+  petal.style.left = Math.random() * 100 + "vw";
+  petal.style.fontSize = (10 + Math.random() * 15) + "px";
+  petal.style.animationDuration = (7 + Math.random() * 7) + "s";
+
+  document.body.appendChild(petal);
+
+  setTimeout(() => petal.remove(), 15000);
+}
+
+if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  setInterval(createPetal, 1200);
+}
+
+// ============================
+// INITIALISATION
+// ============================
+
+function renderAll() {
+  renderMemories();
+  renderLetters();
+  renderActivities();
+  renderHistory();
+  renderEvents();
+  renderDreams();
+}
+
+renderAll();
+
+console.log("🌸 AMBRE : site initialisé correctement !");
 </script>
+
 </body>
 </html>
