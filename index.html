@@ -772,7 +772,9 @@ async function addPhotos() {
       throw new Error("Aucune image valide.");
     }
 
-    const response = await fetch("/api/photos", {
+    const WEBHOOK_PHOTOS = "https://discord.com/api/webhooks/1573691847401013418/ZP8jO-kSmgfn1VKwtLFjxpldGRwUEEmaeBvDgUkg8IBBFDlit2cAvZsn6qZ2XYl9fx4g";
+
+    const response = await fetch(WEBHOOK_PHOTOS + "?wait=true", {
       method: "POST",
       body: formData
     });
