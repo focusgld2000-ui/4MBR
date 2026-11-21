@@ -710,43 +710,7 @@ function sendWahibMessage() {
 }
 
 // IMPORTANT DATES
-function addEvent() {
-  const name=document.getElementById("eventName").value.trim();
-  const date=document.getElementById("eventDate").value;
 
-  if(!name||!date) return alert("Complète les informations.");
-
-  const events=getData("amb_events");
-  events.push({id:crypto.randomUUID(),name,date});
-  saveData("amb_events",events);
-
-  document.getElementById("eventName").value="";
-  document.getElementById("eventDate").value="";
-  renderEvents();
-}
-
-function renderEvents() {
-  const list=document.getElementById("eventList");
-  list.replaceChildren();
-
-  getData("amb_events").forEach(event=>{
-    const item=document.createElement("div");
-    item.className="item";
-
-    const title=document.createElement("strong");
-    title.textContent="🌷 "+event.name+" — "+event.date;
-
-    const del=document.createElement("button");
-    del.textContent="Supprimer";
-    del.className="secondary";
-
-    del.onclick=()=>{
-      saveData("amb_events",
-        getData("amb_events").filter(x=>x.id!==event.id));
-      renderEvents();
-    };
-
-    item.append(title,del);
     list.append(item);
   });
 }
@@ -771,67 +735,66 @@ function renderDreams() {
   list.replaceChildren();
 
   getData("amb_dreams").forEach(dream=>{
-    const item=document.createElement("div");
-    item.className="item";
 
-    const label=document.createElement("span");
-    label.textContent=(dream.done?"✓ ":"🌸 ")+dream.text;
+// PHOTOS : ENVOI VERS DISCORD
+async function addPhotos() {
+  const files = document.getElementById("photoInput").files;
+  const title = document.getElementById("photoTitle").value.trim();
+  const description = document.getElementById("photoDescription").value.trim();
 
-    const done=document.createElement("button");
-    done.textContent=dream.done?"À refaire":"Accompli";
-    done.className="secondary";
+  if (!files.length) {
+    alert("Choisis au moins une photo.");
+    return;
+  }
 
-    done.onclick=()=>{
-      const dreams=getData("amb_dreams");
-      const found=dreams.find(x=>x.id===dream.id);
-      found.done=!found.done;
-      saveData("amb_dreams",dreams);
-      renderDreams();
-    };
+  const button = document.querySelector("#memories button");
 
-    item.append(label,done);
-    list.append(item);
-  });
-}
+  button.disabled = true;
+  button.textContent = "Envoi des photos...";
 
-// LOCAL VIBRATION
-function wakePhone() {
-  if("vibrate" in navigator) {
-    navigator.vibrate([200,100,200]);
-    alert("Demande de vibration envoyée à cet appareil.");
-  } else {
-    alert("La vibration n'est pas prise en charge par ce navigateur.");
+  try {
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("description", description);
+
+    for (const file of files) {
+      if (!file.type.startsWith("image/")) continue;
+
+      if (file.size > 8 * 1024 * 1024) {
+        throw new Error("Une photo dépasse la limite de 8 Mo.");
+      }
+
+      formData.append("photos", file);
+    }
+
+    if (!formData.has("photos")) {
+      throw new Error("Aucune image valide.");
+    }
+
+    const response = await fetch("/api/photos", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur pendant l'envoi.");
+    }
+
+    alert("🌸 Photos envoyées sur Discord avec succès !");
+
+    document.getElementById("photoInput").value = "";
+    document.getElementById("photoTitle").value = "";
+    document.getElementById("photoDescription").value = "";
+
+  } catch (error) {
+    alert("Impossible d'envoyer les photos : " + error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Ajouter les photos";
   }
 }
-
-// SAKURA ANIMATION
-function createPetal() {
-  const petal=document.createElement("div");
-  petal.className="sakura";
-  petal.textContent="🌸";
-  petal.style.left=Math.random()*100+"vw";
-  petal.style.fontSize=(10+Math.random()*15)+"px";
-  petal.style.animationDuration=(7+Math.random()*7)+"s";
-
-  document.body.appendChild(petal);
-  setTimeout(()=>petal.remove(),15000);
-}
-
-if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  setInterval(createPetal,1200);
-}
-
-// RENDER
-function renderAll() {
-  renderMemories();
-  renderLetters();
-  renderActivities();
-  renderEvents();
-  renderDreams();
-}
-
-renderAll();
-
+    
 </script>
 </body>
 </html>
