@@ -1,3 +1,5 @@
+"
+
 <!DOCTYPE html>  <html lang="fr">  
 <head>  
 <meta charset="UTF-8">  
@@ -14,7 +16,9 @@
   --shadow:0 5px 25px #bd779522;  
 }  
   
-* { box-sizing:border-box; }  
+* {  
+  box-sizing:border-box;  
+}  
   
 body {  
   margin:0;  
@@ -37,7 +41,10 @@ header {
   margin:0;  
 }  
   
-.subtitle { font-size:12px;color:#b58b9c; }  
+.subtitle {  
+  font-size:12px;  
+  color:#b58b9c;  
+}  
   
 main {  
   max-width:750px;  
@@ -54,7 +61,9 @@ main {
   border:1px solid #f8e0e9;  
 }  
   
-h2,h3 { color:#bd7795; }  
+h2,h3 {  
+  color:#bd7795;  
+}  
   
 button {  
   border:0;  
@@ -68,7 +77,9 @@ button {
   transition:.2s;  
 }  
   
-button:active { transform:scale(.96); }  
+button:active {  
+  transform:scale(.96);  
+}  
   
 button.secondary {  
   background:#f9e7ee;  
@@ -87,7 +98,10 @@ input,textarea,select {
   outline:none;  
 }  
   
-textarea { min-height:100px;resize:vertical; }  
+textarea {  
+  min-height:100px;  
+  resize:vertical;  
+}  
   
 nav {  
   position:fixed;  
@@ -117,7 +131,9 @@ nav button.active {
   color:#bd7795;  
 }  
   
-.page { display:none; }  
+.page {  
+  display:none;  
+}  
   
 .page.active {  
   display:block;  
@@ -145,9 +161,21 @@ nav button.active {
   }  
 }  
   
-.hero { text-align:center;padding:25px 10px; }  
-.hero h2 { font-family:Georgia,serif;font-size:29px; }  
-.counter { font-size:34px;color:#bd7795;font-weight:bold; }  
+.hero {  
+  text-align:center;  
+  padding:25px 10px;  
+}  
+  
+.hero h2 {  
+  font-family:Georgia,serif;  
+  font-size:29px;  
+}  
+  
+.counter {  
+  font-size:34px;  
+  color:#bd7795;  
+  font-weight:bold;  
+}  
   
 .photo-grid {  
   display:grid;  
@@ -175,7 +203,10 @@ nav button.active {
   overflow-wrap:anywhere;  
 }  
   
-.small { font-size:12px;color:#aa8292; }  
+.small {  
+  font-size:12px;  
+  color:#aa8292;  
+}  
   
 footer {  
   text-align:center;  
@@ -186,8 +217,7 @@ footer {
 </style>  </head>  <body>  <header>  
   <h1 class="logo">🌸 AMBRE</h1>  
   <div class="subtitle">Notre petit univers romantique</div>  
-</header>  <main>  <!-- ACCUEIL -->  <section class="page active" id="home">  
-  <div class="card hero">  
+</header>  <main>  <!-- ACCUEIL -->  <section class="page active" id="home">    <div class="card hero">  
     <div style="font-size:40px">🌸 💗 🌸</div>  
     <h2>Deux cœurs, mille souvenirs.</h2>  
     <p id="quote">Chaque instant partagé devient un souvenir précieux.</p>  
@@ -205,30 +235,31 @@ footer {
   </div>    <div class="card">  
     <h3>🕰️ Date et heure</h3>  
     <p id="clock"></p>  
-  </div>  
-</section>  <!-- SOUVENIRS -->  <section class="page" id="memories">  
-  <div class="card">  
-    <h2>📸 Nos souvenirs</h2>  
-    <input id="photoInput" type="file" accept="image/*" multiple>  
-    <input id="photoTitle" placeholder="Titre du souvenir">  
-    <textarea id="photoDescription" placeholder="Raconte ce moment..."></textarea>  
-    <button onclick="addPhotos()">Ajouter les photos</button>  
+  </div>  </section>  <!-- SOUVENIRS -->  <section class="page" id="memories">    <div class="card">  
+    <h2>📸 Nos souvenirs</h2>  <input id="photoInput" type="file" accept="image/*" multiple>  
+
+<input id="photoTitle" placeholder="Titre du souvenir">  
+
+<textarea id="photoDescription"  
+  placeholder="Raconte ce moment..."></textarea>  
+
+<button onclick="addPhotos()">Ajouter les photos</button>
+
   </div>    <div class="card">  
     <h3>Notre galerie</h3>  
     <div id="gallery" class="photo-grid"></div>  
-  </div>  
-</section>  <!-- LETTRES -->  <section class="page" id="letters">  
-  <div class="card">  
-    <h2>💌 Nos lettres</h2>  
-    <input id="letterTitle" placeholder="Titre de la lettre">  
-    <textarea id="letterText" placeholder="Écris ce que ton cœur veut dire..."></textarea>  
-    <button onclick="addLetter()">Enregistrer ma lettre</button>  
+  </div>  </section>  <!-- LETTRES -->  <section class="page" id="letters">    <div class="card">  
+    <h2>💌 Nos lettres</h2>  <input id="letterTitle" placeholder="Titre de la lettre">  
+
+<textarea id="letterText"  
+  placeholder="Écris ce que ton cœur veut dire..."></textarea>  
+
+<button onclick="addLetter()">Enregistrer ma lettre</button>
+
   </div>    <div class="card">  
     <h3>Notre boîte aux lettres</h3>  
     <div id="letterList"></div>  
-  </div>  
-</section>  <!-- ACTIVITÉS -->  <section class="page" id="activities">  
-  <div class="card">  
+  </div>  </section>  <!-- ACTIVITÉS -->  <section class="page" id="activities">    <div class="card">  
     <h2>❤️ 1 jour, 1 activité</h2>  
     <p>Une nouvelle idée pour partager un moment à deux.</p>  <select id="categoryFilter" onchange="renderActivities()">  
   <option value="Toutes">Toutes les catégories</option>  
@@ -239,78 +270,59 @@ footer {
 </select>  
 
 <button onclick="randomActivity()">🎲 Activité aléatoire</button>  
+
 <div id="activityList"></div>
 
-  </div>  
-</section>  <!-- MESSAGE À AMBRE -->  <section class="page" id="ambre">  
-  <div class="card">  
-    <h2>💗 Envoyer un message à Ambre</h2>  
-    <p>Un petit message à lui transmettre ? 🌸</p>  <textarea id="ambreMessage" maxlength="1900"  
-  placeholder="Écris ton message à Ambre..."></textarea>
+  </div>  </section>  <!-- MESSAGERIE -->  <section class="page" id="messages">    <div class="card">  
+    <h2>💬 Notre messagerie</h2>  <div id="chatHistory"></div>  
 
-<button id="ambreButton" onclick="sendAmbreMessage()">  
-  💗 Envoyer à Ambre  
-</button>  
+<textarea id="messageInput"  
+  placeholder="Écris un petit message..."></textarea>  
 
-<p id="ambreStatus" class="small" aria-live="polite"></p>
-<script>
+<button onclick="sendMessage()">Envoyer</button>
 
-fetch("https://discord.com/api/webhooks/1573681245127180420/9cLIdjqYiGDgf17J0L4swj7QIHZOrUyuno505CfocozVIKkrZT7jDUWEXSRk8DXx_w7X", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ content: ambreMessage })
-});
-</script>
-  </div>  
-</section>  <!-- MESSAGE À WAHIB -->  <section class="page" id="wahib">  
-  <div class="card">  
-    <h2>💬 Envoyer un message à Wahib</h2>  
-    <p>Écris ton message ici ✨</p>  <textarea id="wahibMessage" maxlength="1900"  
-  placeholder="Écris ton message à Wahib..."></textarea>  
+  </div>    <p class="small">Messagerie locale sur cet appareil. Pour communiquer entre deux appareils, un backend sécurisé est nécessaire.</p>  </section>  <!-- AMIS -->  <section class="page" id="friends">    <div class="card">  
+    <h2>🫂 Nos amis</h2>  <input id="friendName" placeholder="Pseudonyme">  
 
-<button id="wahibButton" onclick="sendWahibMessage()">  
-  💌 Envoyer à Wahib  
-</button>  
+<button onclick="addFriend()">Ajouter un ami</button>  
 
-<p id="wahibStatus" class="small" aria-live="polite"></p>
-<script>
-  fetch("https://discord.com/api/webhooks/1573684338761924700/bot2JxcrpEb43fb1rzcGrWfqJAiawRA_k_ZaSnmKVl0nGUW2U-6lItNfNDEBI1tgqJE8", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ content: wahibMessage })
-});
-</script
-</script>
-  </div>  
-</section>  <!-- UNIVERS -->  <section class="page" id="universe">  
-  <div class="card">  
-    <h2>✨ Notre petit univers</h2>  
-    <input id="eventName" placeholder="Date importante">  
-    <input type="date" id="eventDate">  
-    <button onclick="addEvent()">Ajouter au calendrier</button>  
-    <div id="eventList"></div>  
+<div id="friendList"></div>
+
+  </div>  </section>  <!-- UNIVERS -->  <section class="page" id="universe">    <div class="card">  
+    <h2>✨ Notre petit univers</h2>  <input id="eventName" placeholder="Date importante">  
+
+<input type="date" id="eventDate">  
+
+<button onclick="addEvent()">Ajouter au calendrier</button>  
+
+<div id="eventList"></div>
+
   </div>    <div class="card">  
-    <h3>🌷 Nos rêves</h3>  
-    <input id="dreamInput" placeholder="Un rêve à réaliser ensemble">  
-    <button onclick="addDream()">Ajouter un rêve</button>  
-    <div id="dreamList"></div>  
+    <h3>🌷 Nos rêves</h3>  <input id="dreamInput" placeholder="Un rêve à réaliser ensemble">  
+
+<button onclick="addDream()">Ajouter un rêve</button>  
+
+<div id="dreamList"></div>
+
   </div>    <div class="card">  
-    <h3>📳 Réveille-moi</h3>  
-    <p>Envoie une vibration à ton propre appareil lorsque le navigateur le permet.</p>  
-    <button onclick="wakePhone()">Faire vibrer mon téléphone</button>  
-  </div>  
-</section>  <footer>AMBRE 🌸 — Notre petit univers.</footer>  </main>  <nav>  
+    <h3>📳 Réveille-moi</h3>  <p>Envoie une vibration à ton propre appareil lorsque le navigateur le permet.</p>  
+
+<button onclick="wakePhone()">Faire vibrer mon téléphone</button>
+
+  </div>  </section>  <footer>  
+  AMBRE 🌸 — Notre petit univers.  
+</footer>  </main>  <nav>  
   <button class="active" onclick="showPage('home',this)">🌸<br>Accueil</button>  
   <button onclick="showPage('memories',this)">📸<br>Souvenirs</button>  
   <button onclick="showPage('letters',this)">💌<br>Lettres</button>  
   <button onclick="showPage('activities',this)">❤️<br>Activités</button>  
-  <button onclick="showPage('ambre',this)">💗<br>À Ambre</button>  
-  <button onclick="showPage('wahib',this)">💬<br>À Wahib</button>  
+  <button onclick="showPage('messages',this)">💬<br>Messages</button>  
+  <button onclick="showPage('friends',this)">🫂<br>Amis</button>  
   <button onclick="showPage('universe',this)">✨<br>Univers</button>  
 </nav>  <script>  
   
 // STORAGE  
-const getData = (key,fallback=[]) => {  
+const getData = (key, fallback=[]) => {  
   try {  
     return JSON.parse(localStorage.getItem(key)) ?? fallback;  
   } catch {  
@@ -371,6 +383,7 @@ document.getElementById("dailyMessage").textContent =
 function saveStartDate() {  
   const date=document.getElementById("startDate").value;  
   if(!date) return alert("Choisis une date.");  
+  
   saveData("amb_date",date);  
   updateDays();  
 }  
@@ -401,6 +414,7 @@ function addPhotos() {
   
   const memories=getData("amb_memories");  
   const selected=Array.from(files);  
+  
   let processed=0;  
   
   selected.forEach(file=>{  
@@ -418,83 +432,62 @@ function addPhotos() {
         description,  
         image:reader.result,  
         date:new Date().toLocaleDateString("fr-FR")  
-
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1573691847401013418/ZP8jO-kSmgfn1VKwtLFjxpldGRwUEEmaeBvDgUkg8IBBFDlit2cAvZsn6qZ2XYl9fx4g";
-
-function addPhotos() {
-  const files = document.getElementById("photoInput").files;
-  const title = document.getElementById("photoTitle").value;
-  const description = document.getElementById("photoDescription").value;
-
-  if (!files.length) return alert("Choisis une photo.");
-
-  const memories = getData("amb_memories");
-  const selected = Array.from(files);
-  let processed = 0;
-
-  selected.forEach(file => {
-    if (!file.type.startsWith("image/")) {
-      processed++;
-      return;
-    }
-
-    const reader = new FileReader();
-
-    reader.onload = async () => {
-      const photo = reader.result;
-
-      const memory = {
-        id: crypto.randomUUID(),
-        title,
-        description,
-        image: photo,
-        date: new Date().toLocaleDateString("fr-FR")
-      };
-
-      memories.push(memory);
-
-      // Envoi de la photo au webhook
-      try {
-        const formData = new FormData();
-
-        formData.append("file", file, file.name);
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("date", memory.date);
-
-        const response = await fetch(WEBHOOK_URL, {
-          method: "POST",
-          body: formData
-        });
-
-        if (!response.ok) {
-          console.error("Erreur webhook :", response.status);
-        }
-      } catch (error) {
-        console.error("Erreur d'envoi :", error);
-      }
-
-      processed++;
-
-      if (processed === selected.length) {
-        saveData("amb_memories", memories);
-        renderMemories();
-        alert("Souvenirs enregistrés.");
-      }
-    };
-
-    reader.onerror = () => {
-      processed++;
-
-      if (processed === selected.length) {
-        saveData("amb_memories", memories);
-        renderMemories();
-      }
-    };
-
-    reader.readAsDataURL(file);
-  });
-}
+      });  
+  
+      processed++;  
+  
+      if(processed===selected.length) {  
+        saveData("amb_memories",memories);  
+        renderMemories();  
+        alert("Souvenirs enregistrés sur cet appareil.");  
+      }  
+    };  
+  
+    reader.onerror=()=>{  
+      processed++;  
+      if(processed===selected.length) {  
+        saveData("amb_memories",memories);  
+        renderMemories();  
+      }  
+    };  
+  
+    reader.readAsDataURL(file);  
+  });  
+}  
+  
+function renderMemories() {  
+  const memories=getData("amb_memories");  
+  const gallery=document.getElementById("gallery");  
+  
+  gallery.replaceChildren();  
+  
+  memories.forEach(memory=>{  
+    const article=document.createElement("div");  
+    const img=document.createElement("img");  
+    const title=document.createElement("strong");  
+    const desc=document.createElement("p");  
+    const date=document.createElement("small");  
+    const del=document.createElement("button");  
+  
+    article.className="item";  
+    img.src=memory.image;  
+    img.alt=memory.title||"Souvenir";  
+    title.textContent=memory.title||"Souvenir";  
+    desc.textContent=memory.description||"";  
+    date.textContent=memory.date;  
+    del.textContent="Supprimer";  
+    del.className="secondary";  
+  
+    del.onclick=()=>{  
+      saveData("amb_memories",  
+        getData("amb_memories").filter(x=>x.id!==memory.id));  
+      renderMemories();  
+    };  
+  
+    article.append(img,title,desc,date,del);  
+    gallery.append(article);  
+  });  
+}  
   
 // LETTERS  
 function addLetter() {  
@@ -516,6 +509,7 @@ function addLetter() {
   
   document.getElementById("letterTitle").value="";  
   document.getElementById("letterText").value="";  
+  
   renderLetters();  
 }  
   
@@ -578,6 +572,7 @@ const activities=[
 function renderActivities() {  
   const list=document.getElementById("activityList");  
   const category=document.getElementById("categoryFilter").value;  
+  
   list.replaceChildren();  
   
   activities  
@@ -615,77 +610,83 @@ function randomActivity() {
   alert("🌸 "+a.n+"\n\n"+a.d+"\n\nDurée : "+a.t);  
 }  
   
-// DISCORD WEBHOOKS  
-// Remplace ces deux valeurs par tes URL de webhook.  
-const WEBHOOK_AMBRE = "https://discord.com/api/webhooks/1573681245127180420/9cLIdjqYiGDgf17J0L4swj7QIHZOrUyuno505CfocozVIKkrZT7jDUWEXSRk8DXx_w7X";  
-const WEBHOOK_WAHIB = "https://discord.com/api/webhooks/1573684338761924700/bot2JxcrpEb43fb1rzcGrWfqJAiawRA_k_ZaSnmKVl0nGUW2U-6lItNfNDEBI1tgqJE8";  
+// MESSAGES  
+function sendMessage() {  
+  const input=document.getElementById("messageInput");  
+  const text=input.value.trim();  
   
-async function sendDiscordMessage(webhook,inputId,statusId,buttonId,username) {  
-  const input=document.getElementById(inputId);  
-  const status=document.getElementById(statusId);  
-  const button=document.getElementById(buttonId);  
-  const message=input.value.trim();  
+  if(!text) return;  
   
-  if(!message) {  
-    status.textContent="Écris un message avant de l'envoyer.";  
-    return;  
-  }  
+  const messages=getData("amb_messages");  
   
-  if(message.length>1900) {  
-    status.textContent="Ton message est trop long.";  
-    return;  
-  }  
+  messages.push({  
+    text,  
+    date:new Date().toLocaleTimeString("fr-FR")  
+  });  
   
-  if(!webhook.startsWith("https://discord.com/api/webhooks/")) {  
-    status.textContent="Configure d'abord le webhook Discord.";  
-    return;  
-  }  
-  
-  button.disabled=true;  
-  status.textContent="Envoi en cours...";  
-  
-  try {  
-    const response=await fetch(webhook,{  
-      method:"POST",  
-      headers:{"Content-Type":"application/json"},  
-      body:JSON.stringify({  
-        username:username,  
-        content:message,  
-        allowed_mentions:{parse:[]}  
-      })  
-    });  
-  
-    if(!response.ok) {  
-      throw new Error("Discord HTTP "+response.status);  
-    }  
-  
-    input.value="";  
-    status.textContent="💗 Message envoyé avec succès !";  
-  } catch(error) {  
-    status.textContent="Impossible d'envoyer le message. Vérifie ta connexion et le webhook.";  
-  } finally {  
-    button.disabled=false;  
-  }  
+  saveData("amb_messages",messages);  
+  input.value="";  
+  renderMessages();  
 }  
   
-function sendAmbreMessage() {  
-  return sendDiscordMessage(  
-    WEBHOOK_AMBRE,  
-    "ambreMessage",  
-    "ambreStatus",  
-    "ambreButton",  
-    "Message pour Ambre"  
-  );  
+function renderMessages() {  
+  const list=document.getElementById("chatHistory");  
+  list.replaceChildren();  
+  
+  getData("amb_messages").forEach(message=>{  
+    const item=document.createElement("div");  
+    item.className="item";  
+  
+    const text=document.createElement("p");  
+    text.textContent=message.text;  
+  
+    const date=document.createElement("small");  
+    date.textContent=message.date;  
+  
+    item.append(text,date);  
+    list.append(item);  
+  });  
 }  
   
-function sendWahibMessage() {  
-  return sendDiscordMessage(  
-    WEBHOOK_WAHIB,  
-    "wahibMessage",  
-    "wahibStatus",  
-    "wahibButton",  
-    "Message pour Wahib"  
-  );  
+// FRIENDS  
+function addFriend() {  
+  const input=document.getElementById("friendName");  
+  const name=input.value.trim();  
+  
+  if(!name) return;  
+  
+  const friends=getData("amb_friends");  
+  friends.push({id:crypto.randomUUID(),name});  
+  
+  saveData("amb_friends",friends);  
+  input.value="";  
+  renderFriends();  
+}  
+  
+function renderFriends() {  
+  const list=document.getElementById("friendList");  
+  list.replaceChildren();  
+  
+  getData("amb_friends").forEach(friend=>{  
+    const item=document.createElement("div");  
+    item.className="item";  
+  
+    const name=document.createElement("strong");  
+    name.textContent="🫂 "+friend.name;  
+  
+    const del=document.createElement("button");  
+    del.className="secondary";  
+    del.textContent="Supprimer";  
+  
+    del.onclick=()=>{  
+      saveData("amb_friends",  
+        getData("amb_friends").filter(x=>x.id!==friend.id));  
+      renderFriends();  
+    };  
+  
+    item.append(name,del);  
+    list.append(item);  
+  });  
 }  
   
 // IMPORTANT DATES  
@@ -697,10 +698,12 @@ function addEvent() {
   
   const events=getData("amb_events");  
   events.push({id:crypto.randomUUID(),name,date});  
+  
   saveData("amb_events",events);  
   
   document.getElementById("eventName").value="";  
   document.getElementById("eventDate").value="";  
+  
   renderEvents();  
 }  
   
@@ -788,11 +791,13 @@ function createPetal() {
   const petal=document.createElement("div");  
   petal.className="sakura";  
   petal.textContent="🌸";  
+  
   petal.style.left=Math.random()*100+"vw";  
   petal.style.fontSize=(10+Math.random()*15)+"px";  
   petal.style.animationDuration=(7+Math.random()*7)+"s";  
   
   document.body.appendChild(petal);  
+  
   setTimeout(()=>petal.remove(),15000);  
 }  
   
@@ -805,14 +810,14 @@ function renderAll() {
   renderMemories();  
   renderLetters();  
   renderActivities();  
+  renderMessages();  
+  renderFriends();  
   renderEvents();  
   renderDreams();  
 }  
   
 renderAll();  
   
-
-  // https://discord.com/api/webhooks/1573691847401013418/ZP8jO-kSmgfn1VKwtLFjxpldGRwUEEmaeBvDgUkg8IBBFDlit2cAvZsn6qZ2XYl9fx4g
-</script>
-</body> 
-</html> 
+</script>  </body>  
+</html>  
+"
