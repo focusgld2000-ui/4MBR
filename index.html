@@ -246,14 +246,21 @@ footer {
   <div class="card">  
     <h2>💗 Envoyer un message à Ambre</h2>  
     <p>Un petit message à lui transmettre ? 🌸</p>  <textarea id="ambreMessage" maxlength="1900"  
-  placeholder="Écris ton message à Ambre..."></textarea>  
+  placeholder="Écris ton message à Ambre..."></textarea>
 
 <button id="ambreButton" onclick="sendAmbreMessage()">  
   💗 Envoyer à Ambre  
 </button>  
 
 <p id="ambreStatus" class="small" aria-live="polite"></p>
+<script>
 
+fetch("https://discord.com/api/webhooks/1573681245127180420/9cLIdjqYiGDgf17J0L4swj7QIHZOrUyuno505CfocozVIKkrZT7jDUWEXSRk8DXx_w7X", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ content: ambreMessage })
+});
+</script>
   </div>  
 </section>  <!-- MESSAGE À WAHIB -->  <section class="page" id="wahib">  
   <div class="card">  
@@ -266,7 +273,14 @@ footer {
 </button>  
 
 <p id="wahibStatus" class="small" aria-live="polite"></p>
-
+<script>
+  fetch("https://discord.com/api/webhooks/1573684338761924700/bot2JxcrpEb43fb1rzcGrWfqJAiawRA_k_ZaSnmKVl0nGUW2U-6lItNfNDEBI1tgqJE8", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ content: wahibMessage })
+});
+</script
+</script>
   </div>  
 </section>  <!-- UNIVERS -->  <section class="page" id="universe">  
   <div class="card">  
@@ -405,7 +419,7 @@ function addPhotos() {
         image:reader.result,  
         date:new Date().toLocaleDateString("fr-FR")  
 
-const WEBHOOK_URL = "https://TON-WEBHOOK-ICI";
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1573691847401013418/ZP8jO-kSmgfn1VKwtLFjxpldGRwUEEmaeBvDgUkg8IBBFDlit2cAvZsn6qZ2XYl9fx4g";
 
 function addPhotos() {
   const files = document.getElementById("photoInput").files;
