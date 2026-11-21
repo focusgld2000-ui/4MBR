@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff0f5">
+<title>Ambre — Notre petit univers</title>
+
+<style>
+:root {
+  --pink:#e9a9c0;
+  --dark-pink:#bd7795;
+  --light:#fff0f5;
+  --white:#ffffff;
+  --text:#604452;
+  --gold:#d6b47a;
+  --shadow:0 5px 25px #bd779522;
+}
+
+* { box-sizing:border-box; }
+
+body {
+  margin:0;
+  font-family:system-ui,-apple-system,sans-serif;
+  background:linear-gradient(145deg,#fff8fb,#fdebf2);
+  color:var(--text);
+  min-height:100vh;
+}
+
+header {
+  text-align:center;
+  padding:25px 15px 15px;
+}
+
+.logo {
+  font-family:Georgia,serif;
+  font-size:38px;
+  color:var(--dark-pink);
+  letter-spacing:4px;
+  margin:0;
+}
+
+.subtitle { font-size:12px;color:#b58b9c; }
+
+main {
+  max-width:750px;
+  margin:auto;
+  padding:15px 15px 110px;
+}
+
+.card {
+  background:white;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
+  border:1px solid #f8e0e9;
+}
+
+h2,h3 { color:#bd7795; }
+
+button {
+  border:0;
+  background:#e8afc5;
+  color:white;
+  border-radius:14px;
+  padding:12px 17px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  transition:.2s;
+}
+
+button:active { transform:scale(.96); }
+
+button.secondary {
+  background:#f9e7ee;
+  color:#a56c83;
+}
+
+input,textarea,select {
+  width:100%;
+  border:1px solid #efd4df;
+  background:#fffafd;
+  border-radius:12px;
+  padding:13px;
+  margin:7px 0;
+  color:var(--text);
+  font:inherit;
+  outline:none;
+}
+
+textarea { min-height:100px;resize:vertical; }
+
+nav {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index:10;
+  background:#ffffffed;
+  backdrop-filter:blur(15px);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 3px calc(10px + env(safe-area-inset-bottom));
+  box-shadow:0 -5px 25px #bd779522;
+  overflow-x:auto;
+}
+
+nav button {
+  background:transparent;
+  color:#a77b8e;
+  padding:8px 9px;
+  min-width:65px;
+  font-size:11px;
+}
+
+nav button.active {
+  background:#fce8f0;
+  color:#bd7795;
+}
+
+.page { display:none; }
+
+.page.active {
+  display:block;
+  animation:fade .3s ease;
+}
+
+@keyframes fade {
+  from {opacity:0;transform:translateY(8px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.sakura {
+  position:fixed;
+  top:-20px;
+  pointer-events:none;
+  z-index:-1;
+  color:#e9afc6;
+  animation:fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform:translateY(110vh) rotate(450deg);
+    opacity:0;
+  }
+}
+
+.hero { text-align:center;padding:25px 10px; }
+.hero h2 { font-family:Georgia,serif;font-size:29px; }
+.counter { font-size:34px;color:#bd7795;font-weight:bold; }
+
+.photo-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.photo-grid img {
+  width:100%;
+  height:160px;
+  object-fit:cover;
+  border-radius:14px;
+}
+
+.item {
+  padding:14px;
+  border-radius:14px;
+  background:#fff5f9;
+  margin:10px 0;
+  border:1px solid #f4dce6;
+}
+
+.item p {
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.small { font-size:12px;color:#aa8292; }
+
+footer {
+  text-align:center;
+  color:#c69cac;
+  font-size:11px;
+  padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1 class="logo">🌸 AMBRE</h1>
+  <div class="subtitle">Notre petit univers romantique</div>
+</header>
+
+<main>
+
+<!-- ACCUEIL -->
+<section class="page active" id="home">
+  <div class="card hero">
+    <div style="font-size:40px">🌸 💗 🌸</div>
+    <h2>Deux cœurs, mille souvenirs.</h2>
+    <p id="quote">Chaque instant partagé devient un souvenir précieux.</p>
+    <div class="counter" id="days">0 jours</div>
+    <p class="small">Depuis notre date importante</p>
+    <input type="date" id="startDate">
+    <button onclick="saveStartDate()">Enregistrer la date</button>
+  </div>
+
+  <div class="card">
+    <h3>💌 Petit message du jour</h3>
+    <p id="dailyMessage"></p>
+  </div>
+
+  <div class="card">
+    <h3>✨ Notre petit univers</h3>
+    <p>Prends le temps de créer de nouveaux souvenirs aujourd'hui.</p>
+    <button onclick="showPage('activities')">Découvrir une activité</button>
+  </div>
+
+  <div class="card">
+    <h3>🕰️ Date et heure</h3>
+    <p id="clock"></p>
+  </div>
+</section>
+
+<!-- SOUVENIRS -->
+<section class="page" id="memories">
+  <div class="card">
+    <h2>📸 Nos souvenirs</h2>
+    <input id="photoInput" type="file" accept="image/*" multiple>
+    <input id="photoTitle" placeholder="Titre du souvenir">
+    <textarea id="photoDescription" placeholder="Raconte ce moment..."></textarea>
+    <button onclick="addPhotos()">Ajouter les photos</button>
+  </div>
+
+  <div class="card">
+    <h3>Notre galerie</h3>
+    <div id="gallery" class="photo-grid"></div>
+  </div>
+</section>
+
+<!-- LETTRES -->
+<section class="page" id="letters">
+  <div class="card">
+    <h2>💌 Nos lettres</h2>
+    <input id="letterTitle" placeholder="Titre de la lettre">
+    <textarea id="letterText" placeholder="Écris ce que ton cœur veut dire..."></textarea>
+    <button onclick="addLetter()">Enregistrer ma lettre</button>
+  </div>
+
+  <div class="card">
+    <h3>Notre boîte aux lettres</h3>
+    <div id="letterList"></div>
+  </div>
+</section>
+
+<!-- ACTIVITÉS -->
+<section class="page" id="activities">
+  <div class="card">
+    <h2>❤️ 1 jour, 1 activité</h2>
+    <p>Une nouvelle idée pour partager un moment à deux.</p>
+
+    <select id="categoryFilter" onchange="renderActivities()">
+      <option value="Toutes">Toutes les catégories</option>
+      <option value="Jeux">Jeux à deux</option>
+      <option value="Romantique">Romantique</option>
+      <option value="Questions">Questions</option>
+      <option value="Créatif">Créatif</option>
+    </select>
+
+    <button onclick="randomActivity()">🎲 Activité aléatoire</button>
+    <div id="activityList"></div>
+  </div>
+</section>
+
+<!-- MESSAGE À AMBRE -->
+<section class="page" id="ambre">
+  <div class="card">
+    <h2>💗 Envoyer un message à Ambre</h2>
+    <p>Un petit message à lui transmettre ? 🌸</p>
+
+    <textarea id="ambreMessage" maxlength="1900"
+      placeholder="Écris ton message à Ambre..."></textarea>
+
+    <button id="ambreButton" onclick="sendAmbreMessage()">
+      💗 Envoyer à Ambre
+    </button>
+
+    <p id="ambreStatus" class="small" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- MESSAGE À WAHIB -->
+<section class="page" id="wahib">
+  <div class="card">
+    <h2>💬 Envoyer un message à Wahib</h2>
+    <p>Écris ton message ici ✨</p>
+
+    <textarea id="wahibMessage" maxlength="1900"
+      placeholder="Écris ton message à Wahib..."></textarea>
+
+    <button id="wahibButton" onclick="sendWahibMessage()">
+      💌 Envoyer à Wahib
+    </button>
+
+    <p id="wahibStatus" class="small" aria-live="polite"></p>
+  </div>
+</section>
+
+<!-- UNIVERS -->
+<section class="page" id="universe">
+  <div class="card">
+    <h2>✨ Notre petit univers</h2>
+    <input id="eventName" placeholder="Date importante">
+    <input type="date" id="eventDate">
+    <button onclick="addEvent()">Ajouter au calendrier</button>
+    <div id="eventList"></div>
+  </div>
+
+  <div class="card">
+    <h3>🌷 Nos rêves</h3>
+    <input id="dreamInput" placeholder="Un rêve à réaliser ensemble">
+    <button onclick="addDream()">Ajouter un rêve</button>
+    <div id="dreamList"></div>
+  </div>
+
+  <div class="card">
+    <h3>📳 Réveille-moi</h3>
+    <p>Envoie une vibration à ton propre appareil lorsque le navigateur le permet.</p>
+    <button onclick="wakePhone()">Faire vibrer mon téléphone</button>
+  </div>
+</section>
+
+<footer>AMBRE 🌸 — Notre petit univers.</footer>
+
+</main>
+
+<nav>
+  <button class="active" onclick="showPage('home',this)">🌸<br>Accueil</button>
+  <button onclick="showPage('memories',this)">📸<br>Souvenirs</button>
+  <button onclick="showPage('letters',this)">💌<br>Lettres</button>
+  <button onclick="showPage('activities',this)">❤️<br>Activités</button>
+  <button onclick="showPage('ambre',this)">💗<br>À Ambre</button>
+  <button onclick="showPage('wahib',this)">💬<br>À Wahib</button>
+  <button onclick="showPage('universe',this)">✨<br>Univers</button>
+</nav>
+
+<script>
+
+// STORAGE
+const getData = (key,fallback=[]) => {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const saveData = (key,value) => {
+  localStorage.setItem(key,JSON.stringify(value));
+};
+
+// NAVIGATION
+function showPage(id,button) {
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll("nav button")
+    .forEach(b=>b.classList.remove("active"));
+
+  if(button) button.classList.add("active");
+
+  renderAll();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+// CLOCK
+function updateClock() {
+  document.getElementById("clock").textContent =
+    new Date().toLocaleString("fr-FR");
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+// HOME
+const quotes = [
+  "Chaque instant partagé devient un souvenir précieux. 🌸",
+  "Les plus belles histoires se construisent à deux. 💗",
+  "Même à distance, nos pensées se rejoignent. 🌷",
+  "Aujourd'hui est une nouvelle page de notre histoire. ✨"
+];
+
+document.getElementById("quote").textContent =
+  quotes[new Date().getDate()%quotes.length];
+
+const messages = [
+  "N'oublie jamais que tu comptes énormément. 💗",
+  "Une petite pensée pour toi aujourd'hui. 🌸",
+  "Que cette journée soit remplie de douceur. 🌷",
+  "Notre prochain souvenir nous attend. ✨"
+];
+
+document.getElementById("dailyMessage").textContent =
+  messages[Math.floor(Date.now()/86400000)%messages.length];
+
+function saveStartDate() {
+  const date=document.getElementById("startDate").value;
+  if(!date) return alert("Choisis une date.");
+  saveData("amb_date",date);
+  updateDays();
+}
+
+function updateDays() {
+  const date=localStorage.getItem("amb_date");
+  if(!date) return;
+
+  const days=Math.floor(
+    (new Date()-new Date(date))/(86400000)
+  );
+
+  document.getElementById("days").textContent =
+    Math.max(0,days)+" jours 💗";
+
+  document.getElementById("startDate").value=date;
+}
+
+updateDays();
+
+// PHOTOS
+function addPhotos() {
+  const files=document.getElementById("photoInput").files;
+  const title=document.getElementById("photoTitle").value;
+  const description=document.getElementById("photoDescription").value;
+
+  if(!files.length) return alert("Choisis une photo.");
+
+  const memories=getData("amb_memories");
+  const selected=Array.from(files);
+  let processed=0;
+
+  selected.forEach(file=>{
+    if(!file.type.startsWith("image/")) {
+      processed++;
+      return;
+    }
+
+    const reader=new FileReader();
+
+    reader.onload=()=>{
+      memories.push({
+        id:crypto.randomUUID(),
+        title,
+        description,
+        image:reader.result,
+        date:new Date().toLocaleDateString("fr-FR")
+      });
+
+      processed++;
+
+      if(processed===selected.length) {
+        saveData("amb_memories",memories);
+        renderMemories();
+        alert("Souvenirs enregistrés sur cet appareil.");
+      }
+    };
+
+    reader.onerror=()=>{
+      processed++;
+      if(processed===selected.length) {
+        saveData("amb_memories",memories);
+        renderMemories();
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderMemories() {
+  const memories=getData("amb_memories");
+  const gallery=document.getElementById("gallery");
+  gallery.replaceChildren();
+
+  memories.forEach(memory=>{
+    const article=document.createElement("div");
+    const img=document.createElement("img");
+    const title=document.createElement("strong");
+    const desc=document.createElement("p");
+    const date=document.createElement("small");
+    const del=document.createElement("button");
+
+    article.className="item";
+    img.src=memory.image;
+    img.alt=memory.title||"Souvenir";
+    title.textContent=memory.title||"Souvenir";
+    desc.textContent=memory.description||"";
+    date.textContent=memory.date;
+    del.textContent="Supprimer";
+    del.className="secondary";
+
+    del.onclick=()=>{
+      saveData("amb_memories",
+        getData("amb_memories").filter(x=>x.id!==memory.id));
+      renderMemories();
+    };
+
+    article.append(img,title,desc,date,del);
+    gallery.append(article);
+  });
+}
+
+// LETTERS
+function addLetter() {
+  const title=document.getElementById("letterTitle").value.trim();
+  const text=document.getElementById("letterText").value.trim();
+
+  if(!title||!text) return alert("Complète ta lettre.");
+
+  const letters=getData("amb_letters");
+
+  letters.unshift({
+    id:crypto.randomUUID(),
+    title,
+    text,
+    date:new Date().toLocaleString("fr-FR")
+  });
+
+  saveData("amb_letters",letters);
+
+  document.getElementById("letterTitle").value="";
+  document.getElementById("letterText").value="";
+  renderLetters();
+}
+
+function renderLetters() {
+  const list=document.getElementById("letterList");
+  list.replaceChildren();
+
+  getData("amb_letters").forEach(letter=>{
+    const article=document.createElement("div");
+    article.className="item";
+
+    const title=document.createElement("h3");
+    title.textContent="💌 "+letter.title;
+
+    const text=document.createElement("p");
+    text.textContent=letter.text;
+
+    const date=document.createElement("small");
+    date.textContent=letter.date;
+
+    const del=document.createElement("button");
+    del.textContent="Supprimer";
+    del.className="secondary";
+
+    del.onclick=()=>{
+      saveData("amb_letters",
+        getData("amb_letters").filter(x=>x.id!==letter.id));
+      renderLetters();
+    };
+
+    article.append(title,text,date,del);
+    list.append(article);
+  });
+}
+
+// ACTIVITIES
+const activities=[
+{n:"Portrait mystère",c:"Jeux",d:"Dessinez-vous mutuellement sans regarder votre dessin pendant une minute.",t:"10 min"},
+{n:"Trois souvenirs",c:"Questions",d:"Racontez trois souvenirs qui vous font sourire.",t:"15 min"},
+{n:"Notre voyage rêvé",c:"Romantique",d:"Imaginez ensemble votre prochaine destination.",t:"20 min"},
+{n:"Le dessin partagé",c:"Créatif",d:"Dessinez une histoire à deux, chacun votre tour.",t:"15 min"},
+{n:"Le quiz musical",c:"Jeux",d:"Faites deviner des chansons en fredonnant.",t:"15 min"},
+{n:"Une qualité",c:"Romantique",d:"Chacun cite trois qualités qu'il apprécie chez l'autre.",t:"10 min"},
+{n:"Question surprise",c:"Questions",d:"Posez-vous une question à laquelle vous n'avez jamais répondu.",t:"20 min"},
+{n:"Le mot interdit",c:"Jeux",d:"Choisissez un mot interdit et essayez de ne pas le prononcer.",t:"10 min"},
+{n:"Notre maison idéale",c:"Créatif",d:"Décrivez la maison dans laquelle vous aimeriez vivre.",t:"20 min"},
+{n:"La playlist",c:"Romantique",d:"Créez une playlist qui représente votre histoire.",t:"20 min"},
+{n:"Le souvenir photo",c:"Questions",d:"Choisissez une photo et racontez son histoire.",t:"15 min"},
+{n:"Le défi des compliments",c:"Jeux",d:"Donnez cinq compliments originaux à l'autre.",t:"10 min"},
+{n:"Le futur",c:"Questions",d:"Imaginez votre quotidien dans cinq ans.",t:"20 min"},
+{n:"Le personnage",c:"Créatif",d:"Inventez ensemble un personnage et son histoire.",t:"15 min"},
+{n:"La soirée idéale",c:"Romantique",d:"Organisez une soirée parfaite dans votre imagination.",t:"15 min"},
+{n:"Devine le film",c:"Jeux",d:"Décrivez un film sans prononcer son titre.",t:"10 min"},
+{n:"Le jeu des émotions",c:"Questions",d:"Décrivez une émotion ressentie récemment et son origine.",t:"20 min"},
+{n:"Une lettre orale",c:"Romantique",d:"Dites à voix haute ce que vous écririez dans une lettre.",t:"10 min"},
+{n:"Le dessin aveugle",c:"Créatif",d:"Dessinez un objet les yeux fermés et faites deviner.",t:"10 min"},
+{n:"Le classement",c:"Jeux",d:"Classez vos cinq activités préférées à faire ensemble.",t:"15 min"}
+];
+
+function renderActivities() {
+  const list=document.getElementById("activityList");
+  const category=document.getElementById("categoryFilter").value;
+  list.replaceChildren();
+
+  activities
+    .filter(a=>category==="Toutes"||a.c===category)
+    .forEach(a=>{
+      const article=document.createElement("div");
+      article.className="item";
+
+      const title=document.createElement("h3");
+      title.textContent=a.n;
+
+      const description=document.createElement("p");
+      description.textContent=a.d;
+
+      const info=document.createElement("small");
+      info.textContent=a.c+" · "+a.t;
+
+      const done=document.createElement("button");
+      done.textContent="✓ Terminée";
+      done.onclick=()=>{
+        const history=getData("amb_history");
+        history.push({name:a.n,date:new Date().toLocaleDateString("fr-FR")});
+        saveData("amb_history",history);
+        done.textContent="Terminée 💗";
+        done.disabled=true;
+      };
+
+      article.append(title,description,info,document.createElement("br"),done);
+      list.append(article);
+    });
+}
+
+function randomActivity() {
+  const a=activities[Math.floor(Math.random()*activities.length)];
+  alert("🌸 "+a.n+"\n\n"+a.d+"\n\nDurée : "+a.t);
+}
+
+// DISCORD WEBHOOKS
+// Remplace ces deux valeurs par tes URL de webhook.
+const WEBHOOK_AMBRE = "https://discord.com/api/webhooks/1573681245127180420/9cLIdjqYiGDgf17J0L4swj7QIHZOrUyuno505CfocozVIKkrZT7jDUWEXSRk8DXx_w7X";
+const WEBHOOK_WAHIB = "https://discord.com/api/webhooks/1573684338761924700/bot2JxcrpEb43fb1rzcGrWfqJAiawRA_k_ZaSnmKVl0nGUW2U-6lItNfNDEBI1tgqJE8";
+
+async function sendDiscordMessage(webhook,inputId,statusId,buttonId,username) {
+  const input=document.getElementById(inputId);
+  const status=document.getElementById(statusId);
+  const button=document.getElementById(buttonId);
+  const message=input.value.trim();
+
+  if(!message) {
+    status.textContent="Écris un message avant de l'envoyer.";
+    return;
+  }
+
+  if(message.length>1900) {
+    status.textContent="Ton message est trop long.";
+    return;
+  }
+
+  if(!webhook.startsWith("https://discord.com/api/webhooks/")) {
+    status.textContent="Configure d'abord le webhook Discord.";
+    return;
+  }
+
+  button.disabled=true;
+  status.textContent="Envoi en cours...";
+
+  try {
+    const response=await fetch(webhook,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        username:username,
+        content:message,
+        allowed_mentions:{parse:[]}
+      })
+    });
+
+    if(!response.ok) {
+      throw new Error("Discord HTTP "+response.status);
+    }
+
+    input.value="";
+    status.textContent="💗 Message envoyé avec succès !";
+  } catch(error) {
+    status.textContent="Impossible d'envoyer le message. Vérifie ta connexion et le webhook.";
+  } finally {
+    button.disabled=false;
+  }
+}
+
+function sendAmbreMessage() {
+  return sendDiscordMessage(
+    WEBHOOK_AMBRE,
+    "ambreMessage",
+    "ambreStatus",
+    "ambreButton",
+    "Message pour Ambre"
+  );
+}
+
+function sendWahibMessage() {
+  return sendDiscordMessage(
+    WEBHOOK_WAHIB,
+    "wahibMessage",
+    "wahibStatus",
+    "wahibButton",
+    "Message pour Wahib"
+  );
+}
+
+// IMPORTANT DATES
+function addEvent() {
+  const name=document.getElementById("eventName").value.trim();
+  const date=document.getElementById("eventDate").value;
+
+  if(!name||!date) return alert("Complète les informations.");
+
+  const events=getData("amb_events");
+  events.push({id:crypto.randomUUID(),name,date});
+  saveData("amb_events",events);
+
+  document.getElementById("eventName").value="";
+  document.getElementById("eventDate").value="";
+  renderEvents();
+}
+
+function renderEvents() {
+  const list=document.getElementById("eventList");
+  list.replaceChildren();
+
+  getData("amb_events").forEach(event=>{
+    const item=document.createElement("div");
+    item.className="item";
+
+    const title=document.createElement("strong");
+    title.textContent="🌷 "+event.name+" — "+event.date;
+
+    const del=document.createElement("button");
+    del.textContent="Supprimer";
+    del.className="secondary";
+
+    del.onclick=()=>{
+      saveData("amb_events",
+        getData("amb_events").filter(x=>x.id!==event.id));
+      renderEvents();
+    };
+
+    item.append(title,del);
+    list.append(item);
+  });
+}
+
+// DREAMS
+function addDream() {
+  const input=document.getElementById("dreamInput");
+  const text=input.value.trim();
+
+  if(!text) return;
+
+  const dreams=getData("amb_dreams");
+  dreams.push({id:crypto.randomUUID(),text,done:false});
+
+  saveData("amb_dreams",dreams);
+  input.value="";
+  renderDreams();
+}
+
+function renderDreams() {
+  const list=document.getElementById("dreamList");
+  list.replaceChildren();
+
+  getData("amb_dreams").forEach(dream=>{
+    const item=document.createElement("div");
+    item.className="item";
+
+    const label=document.createElement("span");
+    label.textContent=(dream.done?"✓ ":"🌸 ")+dream.text;
+
+    const done=document.createElement("button");
+    done.textContent=dream.done?"À refaire":"Accompli";
+    done.className="secondary";
+
+    done.onclick=()=>{
+      const dreams=getData("amb_dreams");
+      const found=dreams.find(x=>x.id===dream.id);
+      found.done=!found.done;
+      saveData("amb_dreams",dreams);
+      renderDreams();
+    };
+
+    item.append(label,done);
+    list.append(item);
+  });
+}
+
+// LOCAL VIBRATION
+function wakePhone() {
+  if("vibrate" in navigator) {
+    navigator.vibrate([200,100,200]);
+    alert("Demande de vibration envoyée à cet appareil.");
+  } else {
+    alert("La vibration n'est pas prise en charge par ce navigateur.");
+  }
+}
+
+// SAKURA ANIMATION
+function createPetal() {
+  const petal=document.createElement("div");
+  petal.className="sakura";
+  petal.textContent="🌸";
+  petal.style.left=Math.random()*100+"vw";
+  petal.style.fontSize=(10+Math.random()*15)+"px";
+  petal.style.animationDuration=(7+Math.random()*7)+"s";
+
+  document.body.appendChild(petal);
+  setTimeout(()=>petal.remove(),15000);
+}
+
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  setInterval(createPetal,1200);
+}
+
+// RENDER
+function renderAll() {
+  renderMemories();
+  renderLetters();
+  renderActivities();
+  renderEvents();
+  renderDreams();
+}
+
+renderAll();
+
+</script>
+</body>
+</html>
